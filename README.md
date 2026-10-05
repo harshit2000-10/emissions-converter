@@ -55,7 +55,11 @@ The site has no backend, no analytics and no runtime dependencies. Work is saved
 
 `electron/main.cjs` wraps the built site for offline use. It refuses every request that is not one of the app's own files, so nothing can leave the computer. Share links are hidden there, because a link needs a web address; use Save to file instead.
 
-`npm run desktop:win` builds an unsigned Windows installer (x64). The build downloads Electron and NSIS the first time. The installer has not been tested on Windows yet, and without a code-signing certificate Windows SmartScreen will warn on first run.
+Download the Windows installer (x64) from the [latest release](https://github.com/harshit2000-10/emissions-converter/releases/latest). It is not code-signed, so Windows SmartScreen warns on first run: choose More info, then Run anyway.
+
+`.github/workflows/windows.yml` builds the installer on a Windows runner for every `v*` tag. Before it publishes, it installs the app silently and runs the installed app's self-check (the page loads, the font is there, saving works, the network is blocked). No person has clicked through the installer on a Windows PC yet. `npm run desktop:win` builds the same installer locally and downloads Electron and NSIS the first time.
+
+The website at https://harshit2000-10.github.io/emissions-converter/ is published by `.github/workflows/pages.yml` on every push to `main`.
 
 ## Data sources
 

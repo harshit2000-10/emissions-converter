@@ -26,8 +26,11 @@ jobs:
           Start-Process $setup.FullName -ArgumentList '/S' -Wait
           $exe = Get-ChildItem "$env:LOCALAPPDATA\Programs" -Recurse -Filter 'Emissions Converter.exe' | Select-Object -First 1
           if (-not $exe) { throw 'The installer did not install the app' }
+          # a copy that is already open would make the check exit at once without checking anything
+          if (Get-Process 'Emissions Converter' -ErrorAction SilentlyContinue) { throw 'The app is already running' }
           $env:DESKTOP_CHECK = '1'
-          $p = Start-Process $exe.FullName -Wait -PassThru
+          $p = Start-Process $exe.FullName -Wait -PassThru -RedirectStandardOutput check.json
+          Get-Content check.json
           exit $p.ExitCode
       - uses: actions/upload-artifact@v4
         with:
