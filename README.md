@@ -8,9 +8,6 @@ npm run dev      # http://localhost:5173
 npm test         # calculations, the app in a simulated page, saved-file and share-link safety
 npm run verify-sources   # downloads the IPCC and CEA documents and checks every table value (needs the network and pdftotext)
 npm run build    # static site in dist/, works from any folder or host
-npm run desktop        # open the site as a desktop app (Electron)
-npm run desktop:check  # prove the desktop app loads from disk, saves, and cannot reach the network
-npm run desktop:win    # build the Windows installer into release/
 ```
 
 | File | What it holds |
@@ -24,7 +21,6 @@ npm run desktop:win    # build the Windows installer into release/
 | `src/state.ts` | Defaults, saving to the browser, and cleaning anything that comes from a saved file or a link. |
 | `src/share.ts` | Share links: the whole inventory in the address after the `#`. Nothing is uploaded. |
 | `scripts/verify-sources.check.ts` | Re-checks every table value against the original IPCC and CEA documents. |
-| `electron/main.cjs` | Desktop shell: shows the built site in a window and blocks all network access. |
 
 Tabs: Inventory (Scope 1, 2, 3 lines), Quick converters, About.
 
@@ -51,11 +47,7 @@ Work is kept in the browser automatically. The inventory also has Download CSV (
 
 The site has no backend, no analytics and no runtime dependencies. Work is saved in the browser's local storage only. The font is bundled, so the page makes no third-party requests. A share link keeps the inventory after the `#`, which browsers do not send to a server.
 
-## Desktop app
-
-`electron/main.cjs` wraps the built site for offline use. It refuses every request that is not one of the app's own files, so nothing can leave the computer. Share links are hidden there, because a link needs a web address; use Save to file instead.
-
-`npm run desktop:win` builds an unsigned Windows installer (x64) into `release/`. The build downloads Electron and NSIS the first time. No installer is published here, and without a code-signing certificate Windows SmartScreen warns on first run.
+## Deployment
 
 The website at https://harshit2000-10.github.io/emissions-converter/ is published by `.github/workflows/pages.yml` on every push to `main`.
 
@@ -67,4 +59,4 @@ Reference values come from the IPCC assessment reports and 2006 Guidelines, the 
 
 Code is released under the [MIT licence](LICENSE).
 
-The SustivioLabs name and logo (`public/logo.png`, `build/icon.*`) are not covered by that licence. If you publish a changed version, replace them with your own.
+The SustivioLabs name and logo (`public/logo.png`) are not covered by that licence. If you publish a changed version, replace them with your own.

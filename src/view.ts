@@ -24,10 +24,6 @@ const copyBtn = (st: State, key: string, label: string, primary: boolean, style 
   return `<button type="button" class="btn${on && st.copyOk ? ' done' : primary ? ' primary' : ''}" data-a="copy" data-v="${key}"${style ? ` style="${style}"` : ''}>${on ? (st.copyOk ? 'Copied' : 'Copy blocked by browser') : label}</button>`;
 };
 
-// A share link needs a web address. The desktop app is opened from disk, so it offers files only.
-const CAN_SHARE = typeof location === 'undefined' || location.protocol !== 'file:';
-const WHERE = CAN_SHARE ? 'in this browser' : 'on this computer';
-
 /* ---------- header, hero, tabs ---------- */
 export function header(st: State): string {
   return `<a class="skip" href="#main">Skip to the calculator</a>
@@ -219,12 +215,12 @@ function inventory(st: State, m: M): string {
       <div style="display:flex;flex-direction:column;gap:8px;border-top:1px solid #E1E5DB;padding-top:14px">
         <span class="eyebrow">Save and share</span>
         <div style="display:flex;flex-wrap:wrap;gap:10px">
-          ${CAN_SHARE ? '<button type="button" class="btn" data-a="share">Copy share link</button>' : ''}
+          <button type="button" class="btn" data-a="share">Copy share link</button>
           <button type="button" class="btn" data-a="save">Save to file</button>
           <button type="button" class="btn" data-a="open">Open a file</button>
           <input type="file" id="file" accept=".json,application/json" hidden aria-label="Open a saved inventory file">
         </div>
-        <p class="note" style="font-size:13px;margin:0">Your work is kept ${WHERE} automatically. A file${CAN_SHARE ? ' or link' : ''} carries it to another device or a colleague. Nothing is uploaded.</p>
+        <p class="note" style="font-size:13px;margin:0">Your work is kept in this browser automatically. A file or link carries it to another device or a colleague. Nothing is uploaded.</p>
       </div>
     </div>
     <div class="card" style="display:flex;flex-direction:column;gap:12px">
@@ -298,7 +294,7 @@ const STEPS: { t: string; d: string; go?: [Tab, string] }[] = [
   { t: 'Build the inventory', d: 'Start from an example or a blank list, then add a line for each fuel, electricity use, gas release or other activity. Enter the quantity and unit, and tag the line Scope 1, 2 or 3. Use “Edit factors” to replace a default with your own. A negative number counts as zero and the line says so.', go: ['inv', 'Open the inventory'] },
   { t: 'Read the result', d: 'The green panel at the top shows the total footprint and its scope split. Hotspots list the biggest sources first. Hover a hotspot, a line or a scope to see where it appears elsewhere.' },
   { t: 'Convert quickly', d: 'Use Quick converters to express one gas as another, or to move between carbon, CO₂, ppm of CO₂ in the air and N₂O–N. It is handy for one-off checks.', go: ['conv', 'Open Quick converters'] },
-  { t: 'Save and share', d: `Under the scope split, Download CSV gives a spreadsheet${CAN_SHARE ? ', Save to file keeps a copy you can open again, and Copy share link puts the whole inventory in a link for a colleague' : ' and Save to file keeps a copy you can open again or send to a colleague'}. Opening a file${CAN_SHARE ? ', a link' : ''} or an example replaces what is on screen, and Undo brings it back.`, go: ['inv', 'Open the inventory'] },
+  { t: 'Save and share', d: `Under the scope split, Download CSV gives a spreadsheet, Save to file keeps a copy you can open again, and Copy share link puts the whole inventory in a link for a colleague. Opening a file, a link or an example replaces what is on screen, and Undo brings it back.`, go: ['inv', 'Open the inventory'] },
 ];
 const TERMS: [string, string][] = [
   ['CO₂e', 'Carbon dioxide equivalent. Every gas is expressed as the amount of CO₂ that warms the climate as much.'],
@@ -337,7 +333,7 @@ function about(): string {
         <li>Every factor can be edited. Use national, supplier or client values where you have them.</li>
         <li>Scope 2 has built-in factors for electricity only. Add purchased steam, heat or cooling as a custom factor line and tag it Scope 2.</li>
         <li>The copy buttons put a table on your clipboard, ready to paste into Excel or Word. Download CSV gives the same table as a file.</li>
-        <li>Your work is saved ${WHERE} and is not sent anywhere. To move it to another device or person, save a file${CAN_SHARE ? ' or copy a share link. The link holds the whole inventory, so send it only to people who should see it' : ''}.</li>
+        <li>Your work is saved in this browser and is not sent anywhere. To move it to another device or person, save a file or copy a share link. The link holds the whole inventory, so send it only to people who should see it.</li>
         <li>The reference values were entered by hand and last checked against their sources on ${CHECKED_ON}. Check any figure against its source before a client deliverable or a report.</li>
       </ul>
     </div>
