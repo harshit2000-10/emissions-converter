@@ -11,7 +11,7 @@
     "verify-sources": "vitest run -c vitest.sources.config.ts",
     "desktop": "npm run build && electron .",
     "desktop:check": "npm run build && DESKTOP_CHECK=1 electron .",
-    "desktop:win": "npm run build && electron-builder --win --x64"
+    "desktop:win": "npm run build && electron-builder --win --x64 --publish never"
   },
   "devDependencies": {
     "@fontsource-variable/figtree": "^5.3.0",
